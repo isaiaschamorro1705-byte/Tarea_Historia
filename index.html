@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Costa Caribe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <div class="nav">
+        <div class="brand" onclick="irInicio()">
+            ⚓ Caribe en la Memoria
+            <span>Historia · Territorio · Identidad</span>
+        </div>
+        <button class="btn-volver" id="btnVolver" onclick="irInicio()">← Volver al inicio</button>
+    </div>
+</header>
+
+<!-- VISTA INICIO -->
+<div id="vista-inicio" class="vista activa">
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="eyebrow">Memoria histórica de Nicaragua</div>
+            <h1>La Costa Caribe: historia, territorio y soberanía</h1>
+            <p>
+                Selecciona un tema para explorar resúmenes históricos, fechas clave, 
+                documentos y consecuencias territoriales, políticas y culturales. 
+                Al final podrás comprobar tus conocimientos con un cuestionario.
+            </p>
+        </div>
+    </section>
+
+    <div class="wrap">
+        <h2 class="section-title">Explora los temas</h2>
+        <p class="lead">Elige un tema para comenzar el recorrido.</p>
+
+        <div class="temas-grid">
+            <div class="tema-card" onclick="abrirTema('britanica')">
+                <div class="icono">📜</div>
+                <h3>Presencia británica en la Costa Caribe</h3>
+                <p>Influencia del Reino Unido, el Reino de la Mosquitia y los conflictos de soberanía (siglos XVII–XIX).</p>
+            </div>
+            <div class="tema-card" onclick="abrirTema('pueblos')">
+                <div class="icono">🪶</div>
+                <h3>Pueblos originarios y afrodescendientes</h3>
+                <p>Historia, cultura y participación de miskitos, mayangnas, ramas y creoles.</p>
+            </div>
+            <div class="tema-card" onclick="abrirTema('fronteras')">
+                <div class="icono">🗺️</div>
+                <h3>Evolución de las fronteras</h3>
+                <p>Cómo se configuraron los límites territoriales de Nicaragua en el Caribe.</p>
+            </div>
+            <div class="tema-card" onclick="abrirTema('intervenciones')">
+                <div class="icono">⚔️</div>
+                <h3>Intervenciones extranjeras</h3>
+                <p>Principales disputas e intervenciones que afectaron la soberanía nicaragüense.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- VISTA DETALLE TEMA -->
+<div id="vista-tema" class="vista">
+    <div class="wrap">
+        <div class="tema-header" id="temaHeader"></div>
+
+        <div class="tabs" id="tabs">
+            <button class="tab-btn activo" data-tab="resumen">Resumen histórico</button>
+            <button class="tab-btn" data-tab="fechas">Fechas importantes</button>
+            <button class="tab-btn" data-tab="documentos">Documentos</button>
+            <button class="tab-btn" data-tab="comparacion">Comparación y consecuencias</button>
+            <button class="tab-btn" data-tab="cuestionario">Cuestionario</button>
+        </div>
+
+        <div id="contenidoTabs"></div>
+    </div>
+</div>
+
+<footer>
+    <div style="font-size:1.2rem;font-weight:bold">⚓ Caribe en la Memoria</div>
+    <p>Historia · Territorio · Identidad</p>
+    <p>“Conocer nuestra historia es valorar nuestra diversidad.”</p>
+</footer>
+
+<script>
+const temas = {
+    britanica: {
+        titulo: "Presencia británica en la Costa Caribe",
+        subtitulo: "Influencia del Reino Unido y el Reino de la Mosquitia (siglos XVII–XIX)",
+        resumen: `
+            <div class="card">
+                <h3>Resumen histórico</h3>
+                <p>Desde el siglo XVII, la Costa Caribe de Nicaragua estuvo bajo fuerte influencia británica. 
+                Los ingleses establecieron alianzas con los pueblos miskitos y crearon el llamado <strong>Reino de la Mosquitia</strong>, 
+                un protectorado de hecho que dificultó el control efectivo de España y, más tarde, de Nicaragua independiente.</p>
+                <p>Esta presencia se materializó en puestos comerciales, el nombramiento de “reyes” miskitos 
+                y la ocupación de lugares estratégicos como Bluefields y la Bahía de San Juan del Norte. 
+                La rivalidad anglo-española y luego anglo-nicaragüense marcó la geopolítica de la región durante más de dos siglos.</p>
+                <p>El Tratado de Managua (1860) y posteriores acuerdos fueron pasos hacia el reconocimiento de la soberanía nicaragüense, 
+                aunque la influencia británica y las tensiones territoriales persistieron hasta el siglo XX.</p>
+            </div>
+        `,
+        fechas: `
+            <div class="card">
+                <h3>Fechas importantes</h3>
+                <div class="timeline">
+                    <div class="tl-item"><strong>1630–1687</strong> – Primeros asentamientos ingleses y alianzas con los miskitos.</div>
+                    <div class="tl-item"><strong>1740</strong> – Formalización del protectorado británico sobre la Mosquitia.</div>
+                    <div class="tl-item"><strong>1786</strong> – Convención de Londres: España recupera parcialmente el control, pero la influencia británica continúa.</div>
+                    <div class="tl-item"><strong>1844–1860</strong> – Máxima expansión de la influencia británica y reclamaciones sobre San Juan del Norte.</div>
+                    <div class="tl-item"><strong>28 enero 1860</strong> – Tratado de Managua: Gran Bretaña reconoce la soberanía de Nicaragua sobre la Costa Caribe (con reservas).</div>
+                    <div class="tl-item"><strong>1894</strong> – Incorporación definitiva de la Mosquitia a Nicaragua (Reincorporación de la Mosquitia).</div>
+                </div>
+            </div>
+        `,
+        documentos: [
+            {
+                titulo: "Tratado de Managua (28 de enero de 1860)",
+                detalle: "Acuerdo firmado entre Nicaragua y Gran Bretaña. En él, el Reino Unido reconoció la soberanía de Nicaragua sobre la Costa Caribe (Mosquitia), aunque estableció algunas reservas y un período de transición. Este tratado fue un paso fundamental para recuperar el control territorial, aunque su aplicación práctica generó nuevas tensiones en las décadas siguientes."
+            },
+            {
+                titulo: "Convención de Londres (1786)",
+                detalle: "Acuerdo entre España y Gran Bretaña mediante el cual los británicos se comprometían a evacuar la Costa de los Mosquitos. Sin embargo, la influencia inglesa no desapareció por completo y se mantuvo a través de alianzas con las autoridades miskitas y el comercio regional."
+            },
+            {
+                titulo: "Decreto de Reincorporación de la Mosquitia (1894)",
+                detalle: "Acto oficial mediante el cual el gobierno de Nicaragua, bajo la presidencia de José Santos Zelaya, incorporó de manera definitiva el territorio de la Mosquitia al resto del país. Se considera el momento en que se consolidó la soberanía nicaragüense sobre la Costa Caribe después de siglos de influencia extranjera."
+            },
+            {
+                titulo: "Correspondencia diplomática anglo-nicaragüense (1840–1860)",
+                detalle: "Conjunto de cartas e intercambios oficiales entre representantes de Gran Bretaña y Nicaragua. En estos documentos se discuten reclamaciones territoriales, el estatus del Reino de la Mosquitia, el control de puertos como San Juan del Norte y las negociaciones que culminaron en el Tratado de Managua."
+            }
+        ],
+        comparacion: `
+            <div class="card">
+                <h3>Comparación de acontecimientos y consecuencias</h3>
+                <div class="comparacion-grid">
+                    <div class="comp-card">
+                        <h4>Antes de 1860</h4>
+                        <ul>
+                            <li><strong>Territorial:</strong> Control efectivo británico-miskito sobre gran parte de la Costa.</li>
+                            <li><strong>Política:</strong> Protectorado de hecho; Nicaragua con soberanía limitada.</li>
+                            <li><strong>Cultural:</strong> Fuerte influencia inglesa y afro-caribeña (creole).</li>
+                        </ul>
+                    </div>
+                    <div class="comp-card">
+                        <h4>Después de 1894</h4>
+                        <ul>
+                            <li><strong>Territorial:</strong> Incorporación plena a Nicaragua.</li>
+                            <li><strong>Política:</strong> Reconocimiento internacional de la soberanía nicaragüense.</li>
+                            <li><strong>Cultural:</strong> Persistencia de la identidad miskita y creole; inicio de procesos de integración.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top:16px"><strong>Consecuencia principal:</strong> La presencia británica retrasó la consolidación de la soberanía nicaragüense en el Caribe y generó una identidad cultural distinta que aún hoy caracteriza a las Regiones Autónomas.</p>
+            </div>
+        `,
+        quiz: [
+            {
+                pregunta: "¿En qué año se firmó el Tratado de Managua que reconoció la soberanía de Nicaragua sobre la Costa Caribe?",
+                opciones: ["1786", "1844", "1860", "1894"],
+                correcta: 2
+            },
+            {
+                pregunta: "¿Cómo se conocía al territorio bajo influencia británica en la Costa Caribe?",
+                opciones: ["Reino de Granada", "Reino de la Mosquitia", "Capitanía General de Guatemala", "Provincia de Nicaragua"],
+                correcta: 1
+            },
+            {
+                pregunta: "¿En qué año se produjo la Reincorporación definitiva de la Mosquitia a Nicaragua?",
+                opciones: ["1860", "1881", "1894", "1905"],
+                correcta: 2
+            }
+        ]
+    },
+
+    pueblos: {
+        titulo: "Pueblos originarios y afrodescendientes",
+        subtitulo: "Miskitos, mayangnas, ramas, creoles y su papel en la historia caribeña",
+        resumen: `
+            <div class="card">
+                <h3>Resumen histórico</h3>
+                <p>La Costa Caribe ha sido ancestralmente habitada por pueblos indígenas: <strong>miskitos, mayangnas (sumus), ramas</strong> y otros. 
+                A partir del siglo XVII se sumó una importante población afrodescendiente (creoles) producto del comercio y la esclavitud.</p>
+                <p>Estos pueblos no fueron meros espectadores: establecieron alianzas, resistieron dominaciones y negociaron su autonomía. 
+                La identidad cultural caribeña actual es resultado de siglos de interacción entre estas comunidades, 
+                la influencia europea y los procesos de integración a Nicaragua.</p>
+            </div>
+        `,
+        fechas: `
+            <div class="card">
+                <h3>Fechas y hitos</h3>
+                <div class="timeline">
+                    <div class="tl-item"><strong>Época precolombina</strong> – Asentamiento de los pueblos indígenas de la Costa.</div>
+                    <div class="tl-item"><strong>Siglo XVII</strong> – Llegada de población africana y formación de comunidades creoles.</div>
+                    <div class="tl-item"><strong>1987</strong> – Constitución Política reconoce la autonomía de las regiones de la Costa Caribe.</div>
+                    <div class="tl-item"><strong>Actualidad</strong> – Gobiernos regionales autónomos y reivindicación de derechos colectivos.</div>
+                </div>
+            </div>
+        `,
+        documentos: [
+            {
+                titulo: "Estatuto de Autonomía de las Regiones de la Costa Caribe (1987)",
+                detalle: "Ley que reconoce el derecho de las comunidades de la Costa Caribe a la autonomía política, administrativa y cultural. Establece las Regiones Autónomas del Atlántico Norte y Sur (hoy RACCN y RACCS) y garantiza derechos sobre la tierra, los recursos naturales, la lengua y las formas propias de organización."
+            },
+            {
+                titulo: "Estudios etnográficos sobre el pueblo miskito",
+                detalle: "Conjunto de investigaciones realizadas por antropólogos e historiadores sobre la organización social, la lengua, las tradiciones y la historia del pueblo miskito. Estos estudios ayudan a comprender su papel central en la resistencia a la dominación extranjera y en la construcción de la identidad caribeña."
+            },
+            {
+                titulo: "Declaraciones de derechos de pueblos indígenas",
+                detalle: "Documentos internacionales y nacionales que reconocen los derechos colectivos de los pueblos originarios, incluyendo el derecho a la tierra, a la consulta previa, a la preservación de su cultura y a la participación en las decisiones que les afectan. Sirven de marco para las reivindicaciones de las comunidades de la Costa Caribe."
+            }
+        ],
+        comparacion: `
+            <div class="card">
+                <h3>Consecuencias culturales y políticas</h3>
+                <div class="comparacion-grid">
+                    <div class="comp-card">
+                        <h4>Antes de la autonomía</h4>
+                        <ul>
+                            <li>Escaso reconocimiento estatal de la diversidad cultural.</li>
+                            <li>Políticas de asimilación y centralismo.</li>
+                        </ul>
+                    </div>
+                    <div class="comp-card">
+                        <h4>Después de 1987</h4>
+                        <ul>
+                            <li>Reconocimiento constitucional de la autonomía.</li>
+                            <li>Gobiernos regionales y derechos colectivos sobre tierra y recursos.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `,
+        quiz: [
+            {
+                pregunta: "¿Cuál de estos NO es un pueblo originario de la Costa Caribe nicaragüense?",
+                opciones: ["Miskito", "Mayangna", "Nahua", "Rama"],
+                correcta: 2
+            },
+            {
+                pregunta: "¿En qué año se reconoció constitucionalmente la autonomía de las regiones de la Costa Caribe?",
+                opciones: ["1979", "1987", "1990", "2003"],
+                correcta: 1
+            }
+        ]
+    },
+
+    fronteras: {
+        titulo: "Evolución de las fronteras",
+        subtitulo: "Cómo se definieron los límites territoriales de Nicaragua en el Caribe",
+        resumen: `<div class="card"><h3>Resumen</h3><p>Las fronteras de Nicaragua en el Caribe se configuraron a través de tratados internacionales, conflictos con potencias europeas y procesos internos de consolidación territorial. El río Coco (Segovia) y la frontera con Honduras, así como los límites con Costa Rica, fueron objeto de largas disputas.</p></div>`,
+        fechas: `<div class="card"><h3>Fechas clave</h3><div class="timeline"><div class="tl-item"><strong>1858</strong> – Tratado Cañas-Jerez con Costa Rica.</div><div class="tl-item"><strong>1860</strong> – Tratado de Managua con Gran Bretaña.</div><div class="tl-item"><strong>1960</strong> – Fallo de la Corte Internacional de Justicia sobre el río Coco.</div></div></div>`,
+        documentos: [
+            {
+                titulo: "Tratado Cañas-Jerez (1858)",
+                detalle: "Tratado de límites entre Nicaragua y Costa Rica. Estableció gran parte de la frontera actual entre ambos países, incluyendo el curso del río San Juan. Aunque no se refiere directamente a la Costa Caribe norte, formó parte del proceso de definición territorial de Nicaragua en el siglo XIX."
+            },
+            {
+                titulo: "Fallo de la Corte Internacional de Justicia (1960)",
+                detalle: "Sentencia de la CIJ que resolvió la disputa fronteriza entre Nicaragua y Honduras sobre el río Coco (Segovia). El fallo definió el curso del río como límite y tuvo importantes implicaciones para la soberanía territorial en la zona norte de la Costa Caribe."
+            }
+        ],
+        comparacion: `<div class="card"><p>Las disputas fronterizas tuvieron consecuencias directas en la soberanía efectiva y en las relaciones con los países vecinos. La definición de límites fue un proceso largo que combinó negociaciones diplomáticas, conflictos y decisiones de tribunales internacionales.</p></div>`,
+        quiz: [
+            {
+                pregunta: "¿Qué tratado definió gran parte de la frontera con Costa Rica?",
+                opciones: ["Tratado de Managua", "Tratado Cañas-Jerez", "Tratado de París", "Ninguno"],
+                correcta: 1
+            }
+        ]
+    },
+
+    intervenciones: {
+        titulo: "Intervenciones extranjeras",
+        subtitulo: "Disputas e intervenciones que afectaron la soberanía nicaragüense",
+        resumen: `<div class="card"><h3>Resumen</h3><p>Además de la presencia británica, Nicaragua enfrentó intervenciones y presiones de otras potencias, así como conflictos derivados de intereses geopolíticos en el istmo (canal interoceánico, control de puertos, etc.).</p></div>`,
+        fechas: `<div class="card"><div class="timeline"><div class="tl-item"><strong>Siglo XIX</strong> – Rivalidad británica y estadounidense por el control del tránsito interoceánico.</div><div class="tl-item"><strong>1912–1933</strong> – Intervención estadounidense en Nicaragua (contexto nacional más amplio).</div></div></div>`,
+        documentos: [
+            {
+                titulo: "Documentos sobre el canal interoceánico",
+                detalle: "Conjunto de tratados, propuestas y correspondencia relacionados con la idea de construir un canal interoceánico a través de Nicaragua. Estas negociaciones involucraron a potencias extranjeras (especialmente Estados Unidos y Gran Bretaña) y generaron fuertes presiones sobre la soberanía territorial del país durante el siglo XIX y principios del XX."
+            }
+        ],
+        comparacion: `<div class="card"><p>Las intervenciones extranjeras condicionaron la capacidad de Nicaragua para ejercer plena soberanía y marcaron la memoria histórica del país. El interés por el tránsito interoceánico convirtió a Nicaragua en un escenario de rivalidad geopolítica entre potencias.</p></div>`,
+        quiz: [
+            {
+                pregunta: "¿Qué potencia europea tuvo la mayor influencia histórica en la Costa Caribe de Nicaragua?",
+                opciones: ["Francia", "España", "Gran Bretaña", "Alemania"],
+                correcta: 2
+            }
+        ]
+    }
+};
+
+let temaActual = null;
+
+function irInicio() {
+    document.getElementById('vista-inicio').classList.add('activa');
+    document.getElementById('vista-tema').classList.remove('activa');
+    document.getElementById('btnVolver').style.display = 'none';
+    window.scrollTo(0, 0);
+}
+
+function abrirTema(id) {
+    temaActual = id;
+    const t = temas[id];
+
+    document.getElementById('vista-inicio').classList.remove('activa');
+    document.getElementById('vista-tema').classList.add('activa');
+    document.getElementById('btnVolver').style.display = 'inline-block';
+
+    document.getElementById('temaHeader').innerHTML = `
+        <h2>${t.titulo}</h2>
+        <p>${t.subtitulo}</p>
+    `;
+
+    // Generar lista de documentos con botón "Ver"
+    let docsHTML = '<div class="card"><h3>Documentos y referencias</h3><div class="doc-lista">';
+    t.documentos.forEach((doc, i) => {
+        docsHTML += `
+            <div class="doc-item">
+                <div class="doc-header">
+                    <span>${doc.titulo}</span>
+                    <button class="btn-ver" onclick="toggleDetalle(${i})">Ver</button>
+                </div>
+                <div class="doc-detalle" id="detalle-${i}">${doc.detalle}</div>
+            </div>
+        `;
+    });
+    docsHTML += '</div></div>';
+
+    const cont = document.getElementById('contenidoTabs');
+    cont.innerHTML = `
+        <div class="tab-contenido activo" id="tab-resumen">${t.resumen}</div>
+        <div class="tab-contenido" id="tab-fechas">${t.fechas}</div>
+        <div class="tab-contenido" id="tab-documentos">${docsHTML}</div>
+        <div class="tab-contenido" id="tab-comparacion">${t.comparacion}</div>
+        <div class="tab-contenido" id="tab-cuestionario">
+            <div class="card">
+                <h3>Cuestionario de conocimientos</h3>
+                <p>Responde las siguientes preguntas para comprobar lo que has aprendido sobre este tema.</p>
+                <div id="quizContainer"></div>
+                <button class="btn-quiz" onclick="evaluarQuiz()">Comprobar respuestas</button>
+                <div id="resultadoQuiz" class="resultado"></div>
+            </div>
+        </div>
+    `;
+
+    // Generar preguntas del cuestionario
+    const quizCont = document.getElementById('quizContainer');
+    t.quiz.forEach((q, i) => {
+        let opts = q.opciones.map((op, j) => `
+            <label>
+                <input type="radio" name="preg${i}" value="${j}">
+                ${op}
+            </label>
+        `).join('');
+        quizCont.innerHTML += `
+            <div class="pregunta">
+                <h4>${i + 1}. ${q.pregunta}</h4>
+                <div class="opciones">${opts}</div>
+            </div>
+        `;
+    });
+
+    // Activar pestañas
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('activo');
+        if (btn.dataset.tab === 'resumen') btn.classList.add('activo');
+        btn.onclick = () => cambiarTab(btn.dataset.tab);
+    });
+
+    window.scrollTo(0, 0);
+}
+
+function toggleDetalle(index) {
+    const detalle = document.getElementById(`detalle-${index}`);
+    if (detalle.classList.contains('visible')) {
+        detalle.classList.remove('visible');
+    } else {
+        // Cerrar otros detalles abiertos
+        document.querySelectorAll('.doc-detalle').forEach(d => d.classList.remove('visible'));
+        detalle.classList.add('visible');
+    }
+}
+
+function cambiarTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activo'));
+    document.querySelectorAll('.tab-contenido').forEach(c => c.classList.remove('activo'));
+    document.querySelector(`[data-tab="${tabId}"]`).classList.add('activo');
+    document.getElementById(`tab-${tabId}`).classList.add('activo');
+}
+
+function evaluarQuiz() {
+    const t = temas[temaActual];
+    let correctas = 0;
+    let total = t.quiz.length;
+
+    t.quiz.forEach((q, i) => {
+        const seleccion = document.querySelector(`input[name="preg${i}"]:checked`);
+        if (seleccion && parseInt(seleccion.value) === q.correcta) {
+            correctas++;
+        }
+    });
+
+    const res = document.getElementById('resultadoQuiz');
+    res.style.display = 'block';
+    if (correctas === total) {
+        res.className = 'resultado correcto';
+        res.innerHTML = `¡Excelente! Respondiste correctamente ${correctas} de ${total} preguntas. Dominas el tema.`;
+    } else if (correctas >= total / 2) {
+        res.className = 'resultado correcto';
+        res.innerHTML = `Bien hecho. Obtuviste ${correctas} de ${total} correctas. Te recomendamos revisar las secciones de resumen y fechas.`;
+    } else {
+        res.className = 'resultado incorrecto';
+        res.innerHTML = `Obtuviste ${correctas} de ${total} correctas. Te sugerimos volver a leer el resumen histórico y las fechas importantes.`;
+    }
+}
+</script>
+
+</body>
+</html>
